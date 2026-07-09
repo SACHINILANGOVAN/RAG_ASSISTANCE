@@ -20,7 +20,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@langchain/community": "^0.3.42",
+    "@huggingface/transformers": "^4.2.0",
+    "@langchain/community": "^1.1.29",
     "@langchain/core": "^0.3.57",
     "@langchain/groq": "^0.2.3",
     "@langchain/textsplitters": "^0.1.0",

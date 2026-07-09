@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import sql from "mssql";
 import { Document } from "@langchain/core/documents";
-import { HuggingFaceTransformersEmbeddings } from "@langchain/community/embeddings/hf_transformers";
+import { HuggingFaceTransformersEmbeddings } from "@langchain/community/embeddings/huggingface_transformers";
 import { embedTextsWithCache } from "./embeddingCache.js";
 import { loadBm25Index, rebuildBm25IndexFromRows } from "./bm25Store.js";
 
