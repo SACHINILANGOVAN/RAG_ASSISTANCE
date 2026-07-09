@@ -10,7 +10,7 @@
     "clean": "node -e \"const fs=require('fs'); for (const p of ['node_modules','package-lock.json']) fs.rmSync(p,{recursive:true,force:true});\""
   },
   "engines": {
-    "node": "22.x"
+    "node": ">=22 <23"
   },
   "keywords": [
     "rag",
