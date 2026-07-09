@@ -1,0 +1,22 @@
+RUN COMMANDS
+============
+
+1) Open PowerShell inside this folder:
+   cd "C:\Users\jktyr\Downloads\rag-app-main-updated-vector-db"
+
+2) Install packages:
+   npm install --legacy-peer-deps
+
+3) Add your .env values. Important:
+   GROQ_API_KEY=your_key
+   VECTORSTORE_MAX_SIZE_MB=1024
+
+4) Run:
+   npm start
+
+New changes added:
+- Vector DB storage size and free capacity shown at top.
+- Indexed Documents list with Delete button.
+- Delete removes file from manifest, vector DB rows, BM25 search index, and SQL metadata when configured.
+- Upload progress shows selected file count, uploaded MB, percentage, and processing status.
+- Existing chat/indexing logic kept unchanged except needed management APIs.

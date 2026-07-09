@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMART-JK RAG Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="mesh-grid" aria-hidden="true"></div>
+
+  <div class="app">
+    <aside class="executive-rail" aria-label="Application navigation">
+      <div class="brand-card">
+        <div class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img">
+            <defs>
+              <linearGradient id="logoGradient" x1="8" y1="8" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#dbeafe" />
+                <stop offset="0.42" stop-color="#2563eb" />
+                <stop offset="1" stop-color="#38bdf8" />
+              </linearGradient>
+            </defs>
+            <path d="M32 5.5 55.8 19v26L32 58.5 8.2 45V19L32 5.5Z" fill="rgba(255,255,255,.04)" stroke="url(#logoGradient)" stroke-width="2.4" />
+            <path d="M20 31.6c0-7.4 5-12.8 12-12.8s12 5.4 12 12.8-5 12.8-12 12.8-12-5.4-12-12.8Z" fill="none" stroke="url(#logoGradient)" stroke-width="3" />
+            <path d="M32 19v25M20 32h24M24.2 23.8l15.6 16.4M39.8 23.8 24.2 40.2" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round" opacity=".9" />
+            <circle cx="32" cy="32" r="4.3" fill="url(#logoGradient)" />
+          </svg>
+        </div>
+        <div class="brand-copy">
+          <span class="brand-kicker">SMART IIoT</span>
+          <h1>RAG Intelligence</h1>
+          <p>Secure knowledge assistant</p>
+        </div>
+      </div>
+
+      <div class="rail-status-stack">
+        <div class="status-pill live">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>Local AI Workspace</span>
+        </div>
+        <div id="statusBadge" class="status-badge" role="status">Checking status…</div>
+        <div id="storageSummary" class="storage-summary">Vector DB: calculating…</div>
+      </div>
+      <div class="documents-section">
+            <div class="documents-title-row">
+              <div>
+                <span class="section-kicker">Library</span>
+                <h3>Indexed Documents</h3>
+              </div>
+              <div class="documents-actions">
+                <button type="button" id="expandDocsBtn" class="icon-doc-btn expand-docs-btn hidden" title="View all indexed documents" aria-label="View all indexed documents"></button>
+                <button type="button" id="refreshDocsBtn" class="icon-doc-btn refresh-docs-btn" title="Refresh indexed documents" aria-label="Refresh indexed documents"></button>
+              </div>
+            </div>
+            <ul id="documentList" class="document-list compact-doc-list">
+              <li class="empty">No documents uploaded yet.</li>
+            </ul>
+          </div>
+    </aside>
+<main class="main">
+        
+
+          <section class="dashboard-section" aria-labelledby="dashboard-heading">
+            <div class="section-title-row">
+              <div>
+                <span class="section-kicker">Operational View</span>
+                <h3 id="dashboard-heading">Knowledge Dashboard</h3>
+              </div>
+            </div>
+            <div id="dashboard" class="dashboard-grid">
+              <p class="empty">Loading dashboard…</p>
+            </div>
+            <div class="dashboard-charts">
+  <div class="charts-grid">
+ <!-- Dashboard Charts Section with Carousel -->
+<section class="panel dashboard-panel" aria-labelledby="dashboard-heading">
+  <div class="section-title-row">
+    <div>
+      <span class="section-kicker">Operational View</span>
+      <h3 id="dashboard-heading">Knowledge Dashboard</h3>
+    </div>
+    <div class="carousel-indicators">
+      <span class="dot-indicator active" data-index="0"></span>
+      <span class="dot-indicator" data-index="1"></span>
+      <span class="dot-indicator" data-index="2"></span>
+      <span class="dot-indicator" data-index="3"></span>
+    </div>
+  </div>
+
+  <div class="carousel-container">
+    <button class="carousel-arrow prev" id="prevChart" aria-label="Previous chart">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <div class="carousel-track" id="chartCarousel">
+      <!-- Slide 1: Document Types -->
+      <div class="carousel-slide active">
+        <div class="chart-card expanded">
+          <div class="chart-header">
+            <span class="chart-title">Document Types</span>
+            <span class="chart-badge">Distribution</span>
+          </div>
+          <div class="chart-container large">
+            <canvas id="docTypeChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Storage Overview -->
+      <div class="carousel-slide">
+        <div class="chart-card expanded">
+          <div class="chart-header">
+            <span class="chart-title">Storage Overview</span>
+            <span class="chart-badge">Usage</span>
+          </div>
+          <div class="chart-container large">
+            <canvas id="storageChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Index Health -->
+      <div class="carousel-slide">
+        <div class="chart-card expanded">
+          <div class="chart-header">
+            <span class="chart-title">Index Health</span>
+            <span class="chart-badge">Status</span>
+          </div>
+          <div class="chart-container large">
+            <canvas id="indexHealthChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4: Activity Trend -->
+      <div class="carousel-slide">
+        <div class="chart-card expanded">
+          <div class="chart-header">
+            <span class="chart-title">Activity Trend</span>
+            <span class="chart-badge">7 Days</span>
+          </div>
+          <div class="chart-container large">
+            <canvas id="activityChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="carousel-arrow next" id="nextChart" aria-label="Next chart">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
+</section>
+          </section>
+
+          
+        </section>
+
+        <section class="panel chat-panel" aria-labelledby="chat-heading">
+          <div class="chat-topbar">
+            <div>
+              <span class="section-kicker">AI Workspace</span>
+              <h2 id="chat-heading">Ask the Knowledge Base</h2>
+            </div>
+            <div class="model-chip"><span class="pulse-dot" aria-hidden="true"></span>Ready for retrieval</div>
+          </div>
+
+          <div id="chatWindow" class="chat-window" role="log" aria-live="polite" aria-relevant="additions">
+            <div class="message bot welcome">
+              <p><strong>Welcome.</strong> Upload documents or a folder, then ask precise questions. I will answer from your indexed knowledge base.</p>
+            </div>
+          </div>
+
+          <form id="chatForm" class="chat-form">
+            <label class="sr-only" for="questionInput">Your question</label>
+            <textarea
+              id="questionInput"
+              rows="2"
+              placeholder="Ask your question… Enter sends, Shift + Enter adds a new line"
+              required
+            ></textarea>
+            <div class="chat-actions">
+              <button type="submit" id="sendBtn" class="btn btn-primary send-button"><span class="btn-icon icon-send" aria-hidden="true"></span>Send</button>
+              <button type="button" id="cancelChatBtn" class="cancel-chat-btn hidden" title="Cancel current response" aria-label="Cancel current response"><span aria-hidden="true">×</span></button>
+            </div>
+          </form>
+
+          <div id="chatLoading" class="loading hidden" aria-hidden="true">
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Retrieving context and generating answer…</span>
+          </div>
+        </section>
+
+        <aside class="panel insight-panel" aria-label="Search filters and platform details">
+         
+
+          <div class="filter-row">
+            <label>
+              <span>Filter type</span>
+              <input type="text" id="filterFileType" placeholder="e.g. pdf" />
+            </label>
+            <label>
+              <span>Filter folder</span>
+              <input type="text" id="filterFolderPath" placeholder="e.g. reports/" />
+            </label>
+          </div>
+
+<div>
+            
+            <section class="panel upload-panel" aria-labelledby="upload-heading">
+          <div class="panel-header">
+            <div>
+              <span class="section-kicker">Knowledge Intake</span>
+              <h2 id="upload-heading">Upload &amp; Index</h2>
+            </div>
+            <span class="panel-icon upload-glyph" aria-hidden="true"></span>
+          </div>
+
+          <p class="hint">
+            Index PDF, Word, Excel, PowerPoint, images, text, code, CSV, JSON, ZIP archives and complete folders. Folder paths are preserved for clean traceability.
+          </p>
+
+          <div class="upload-zone">
+            <div class="upload-zone-icon" aria-hidden="true"></div>
+            <div class="upload-zone-copy">
+              <strong>Drop-ready knowledge intake</strong>
+              <span>Select files or a complete folder, then run indexing.</span>
+            </div>
+          </div>
+
+          <div class="upload-row">
+            <label class="file-label" for="fileInput">
+              <span class="btn btn-secondary"><span class="btn-icon icon-file" aria-hidden="true"></span>Choose Files</span>
+              <input
+                type="file"
+                id="fileInput"
+                multiple
+                accept=".pdf,.txt,.md,.csv,.json,.xml,.html,.docx,.pptx,.xlsx,.xls,.zip,.png,.jpg,.jpeg,.js,.ts,.py,.java,.cs,.css,.yaml,.yml,.sql,.log,.rtf"
+                hidden
+              />
+            </label>
+            <label class="file-label" for="folderInput">
+              <span class="btn btn-secondary"><span class="btn-icon icon-folder" aria-hidden="true"></span>Upload Folder</span>
+              <input type="file" id="folderInput" webkitdirectory directory multiple hidden />
+            </label>
+            <button type="button" id="uploadBtn" class="btn btn-primary" disabled><span class="btn-icon icon-spark" aria-hidden="true"></span>Upload &amp; Index</button>
+          </div>
+
+          <p id="selectedFiles" class="selected-files" aria-live="polite"></p>
+
+          <div id="uploadProgress" class="progress hidden" role="progressbar" aria-label="Upload progress">
+            <div class="progress-topline">
+              <span class="progress-text" id="uploadProgressText">Waiting…</span>
+              <span class="progress-percent" id="uploadProgressPercent">0%</span>
+            </div>
+            <div class="progress-line"><div class="progress-fill" id="uploadProgressFill"></div></div>
+          </div>
+
+          <div id="uploadResult" class="result-box hidden" aria-live="polite"></div>
+
+
+          </div>
+
+          
+        </aside>
+      </main>
+    <div class="content-shell">
+      <header class="header">
+        <div class="hero-copy">
+          <span class="eyebrow">Executive Document Intelligence</span>
+          <h2>Private RAG cockpit for fast, reliable knowledge discovery.</h2>
+          <p class="subtitle">Upload enterprise documents, index them locally, and ask focused questions through a refined AI workspace.</p>
+        </div>
+        
+        <div class="hero-side">
+          <div class="rail-footer-card">
+        <span class="mini-label">Retrieval stack</span>
+        <strong>Vector + BM25 Hybrid</strong>
+        <p>Document-aware answers with clean source handling.</p>
+      </div>
+          <nav class="rail-nav">
+        <a href="#upload-heading" class="rail-link active"><span class="nav-icon nav-upload" aria-hidden="true"></span>Knowledge Intake</a>
+        <a href="#dashboard-heading" class="rail-link"><span class="nav-icon nav-dash" aria-hidden="true"></span>Index Health</a>
+      </nav>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="panel upload-panel" aria-labelledby="upload-heading">
+          <div class="panel-header">
+            <div>
+              <span class="section-kicker">Knowledge Intake</span>
+              <h2 id="upload-heading">Upload &amp; Index</h2>
+            </div>
+            <span class="panel-icon upload-glyph" aria-hidden="true"></span>
+          </div>
+
+          <p class="hint">
+            Index PDF, Word, Excel, PowerPoint, images, text, code, CSV, JSON, ZIP archives and complete folders. Folder paths are preserved for clean traceability.
+          </p>
+
+          <div class="upload-zone">
+            <div class="upload-zone-icon" aria-hidden="true"></div>
+            <div class="upload-zone-copy">
+              <strong>Drop-ready knowledge intake</strong>
+              <span>Select files or a complete folder, then run indexing.</span>
+            </div>
+          </div>
+
+          <div class="upload-row">
+            <label class="file-label" for="fileInput">
+              <span class="btn btn-secondary"><span class="btn-icon icon-file" aria-hidden="true"></span>Choose Files</span>
+              <input
+                type="file"
+                id="fileInput"
+                multiple
+                accept=".pdf,.txt,.md,.csv,.json,.xml,.html,.docx,.pptx,.xlsx,.xls,.zip,.png,.jpg,.jpeg,.js,.ts,.py,.java,.cs,.css,.yaml,.yml,.sql,.log,.rtf"
+                hidden
+              />
+            </label>
+            <label class="file-label" for="folderInput">
+              <span class="btn btn-secondary"><span class="btn-icon icon-folder" aria-hidden="true"></span>Upload Folder</span>
+              <input type="file" id="folderInput" webkitdirectory directory multiple hidden />
+            </label>
+            <button type="button" id="uploadBtn" class="btn btn-primary" disabled><span class="btn-icon icon-spark" aria-hidden="true"></span>Upload &amp; Index</button>
+          </div>
+
+          <p id="selectedFiles" class="selected-files" aria-live="polite"></p>
+
+          <div id="uploadProgress" class="progress hidden" role="progressbar" aria-label="Upload progress">
+            <div class="progress-topline">
+              <span class="progress-text" id="uploadProgressText">Waiting…</span>
+              <span class="progress-percent" id="uploadProgressPercent">0%</span>
+            </div>
+            <div class="progress-line"><div class="progress-fill" id="uploadProgressFill"></div></div>
+          </div>
+
+          <div id="uploadResult" class="result-box hidden" aria-live="polite"></div>
+
+          <details class="supported-types">
+            <summary>Supported file types</summary>
+            <p class="types-list">pdf, docx, pptx, xlsx, xls, csv, txt, json, xml, md, log, zip, png, jpg, jpeg, and source code files.</p>
+            <p class="types-note">Scanned PDFs/images use OCR. ZIP archives are extracted recursively.</p>
+          </details>
+
+          <section class="dashboard-section" aria-labelledby="dashboard-heading">
+            <div class="section-title-row">
+              <div>
+                <span class="section-kicker">Operational View</span>
+                <h3 id="dashboard-heading">Knowledge Dashboard</h3>
+              </div>
+            </div>
+            <div id="dashboard" class="dashboard-grid">
+              <p class="empty">Loading dashboard…</p>
+            </div>
+          </section>
+
+          
+        </section>
+
+        <section class="panel chat-panel" aria-labelledby="chat-heading">
+          <div class="chat-topbar">
+            <div>
+              <span class="section-kicker">AI Workspace</span>
+              <h2 id="chat-heading">Ask the Knowledge Base</h2>
+            </div>
+            <div class="model-chip"><span class="pulse-dot" aria-hidden="true"></span>Ready for retrieval</div>
+          </div>
+
+          <div id="chatWindow" class="chat-window" role="log" aria-live="polite" aria-relevant="additions">
+            <div class="message bot welcome">
+              <p><strong>Welcome.</strong> Upload documents or a folder, then ask precise questions. I will answer from your indexed knowledge base.</p>
+            </div>
+          </div>
+
+          <form id="chatForm" class="chat-form">
+            <label class="sr-only" for="questionInput">Your question</label>
+            <textarea
+              id="questionInput"
+              rows="2"
+              placeholder="Ask your question… Enter sends, Shift + Enter adds a new line"
+              required
+            ></textarea>
+            <div class="chat-actions">
+              <button type="submit" id="sendBtn" class="btn btn-primary send-button"><span class="btn-icon icon-send" aria-hidden="true"></span>Send</button>
+              <button type="button" id="cancelChatBtn" class="cancel-chat-btn hidden" title="Cancel current response" aria-label="Cancel current response"><span aria-hidden="true">×</span></button>
+            </div>
+          </form>
+
+          <div id="chatLoading" class="loading hidden" aria-hidden="true">
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Retrieving context and generating answer…</span>
+          </div>
+        </section>
+
+        <aside class="panel insight-panel" aria-label="Search filters and platform details">
+         
+
+          <div class="filter-row">
+            <label>
+              <span>Filter type</span>
+              <input type="text" id="filterFileType" placeholder="e.g. pdf" />
+            </label>
+            <label>
+              <span>Filter folder</span>
+              <input type="text" id="filterFolderPath" placeholder="e.g. reports/" />
+            </label>
+          </div>
+          
+
+<div>
+              <div class="capability-card">
+              <span class="cap-icon cap-search" aria-hidden="true"></span>
+              <div><strong>Hybrid retrieval</strong><p>Semantic vector search with keyword grounding.</p></div>
+            </div>
+            <div class="capability-card">
+              <span class="cap-icon cap-speed" aria-hidden="true"></span>
+              <div><strong>Fast answers</strong><p>Designed for executive demos and daily use.</p></div>
+            </div>
+          </div>
+
+          
+        </aside>
+      </main>
+
+      <footer class="footer">
+        <p><strong>Developed By Smart_IIoT</strong></p>
+      </footer>
+    </div>
+
+    <div id="docsModal" class="docs-modal hidden" role="dialog" aria-modal="true" aria-labelledby="docsModalTitle">
+      <div class="docs-modal-card">
+        <div class="docs-modal-header">
+          <div>
+            <span class="section-kicker">Knowledge Library</span>
+            <h3 id="docsModalTitle">Indexed Documents</h3>
+            <p id="docsModalCount">All uploaded/indexed files</p>
+          </div>
+          <button type="button" id="closeDocsModalBtn" class="icon-doc-btn close-docs-btn" title="Close" aria-label="Close indexed documents popup"></button>
+        </div>
+        <ul id="expandedDocumentList" class="document-list expanded-document-list">
+          <li class="empty">No documents uploaded yet.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
